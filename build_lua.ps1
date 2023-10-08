@@ -82,15 +82,15 @@ if ([IO.Path]::GetExtension($o) -ne ".pdx") {
 if ($nobuild -ne $true) {
     $build = "pdc";
     if ($I -ne $null -and $I -ne "") {
-        $build = $build,"-I",$I -join " "
+        $build = "$build -I `"$I`""
     }
-    $build = $build,$in,$o -join " "
+    $build = "$build `"$in`" `"$o`""
 
     echo "Building $in..."
     echo "Output path: $o"
     echo "Call: $build"
 
-    iex $build
+    Invoke-Expression "& $build"
 }
 
 if ($zip -eq $true) {
@@ -101,7 +101,7 @@ if ($zip -eq $true) {
 
 if ($run -eq $true) {
     echo "Running PlaydateSimulator..."
-    iex "PlaydateSimulator $o"
+    Invoke-Expression "& PlaydateSimulator `"$o`""
 }
 
 echo "All done!"
